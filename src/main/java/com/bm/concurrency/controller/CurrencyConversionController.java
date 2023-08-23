@@ -4,9 +4,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class TestController {
+public class CurrencyConversionController {
     @GetMapping
-    public String getTest(){
-        return "ConCurrency";
+    public String getHello(){
+        return "Hello";
     }
 }
