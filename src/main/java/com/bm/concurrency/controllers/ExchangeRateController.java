@@ -1,50 +1,36 @@
 package com.bm.concurrency.controllers;
 
+import com.bm.concurrency.models.constants.enums.CountriesCode;
+import com.bm.concurrency.models.entities.CountriesInfoModel;
+import com.bm.concurrency.models.entities.RequestDto;
 import com.bm.concurrency.services.ExchangeRateService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api/exchange")
 public class ExchangeRateController {
+
 
     private final ExchangeRateService exchangeRateService;
 
     public ExchangeRateController(ExchangeRateService exchangeRateService) {
         this.exchangeRateService = exchangeRateService;
     }
+    @PostMapping("/compare")
+    public ResponseEntity<Map<Integer, Double>> convertCurrency(@RequestBody RequestDto request) {
 
-    @GetMapping("/exchangeRate")
-    public ResponseEntity<Map<String, Double>> exchangeRate(
-            @RequestParam String baseCurrency,
-            @RequestParam List<String> targetCurrencies,
-            @RequestParam double amount) {
+        Map<Integer, Double> convertedAmounts = exchangeRateService.getConvertedAmounts(request.getBaseCurrencyId(), request.getTargetCurrencyIds(), request.getAmount());
 
-        Map<String, Double> convertedAmounts = exchangeRateService.getConvertedAmounts(baseCurrency, targetCurrencies, amount);
-
-        if (convertedAmounts.isEmpty()) {
-            return ResponseEntity.notFound().build();
+        if (convertedAmounts == null) {
+            return ResponseEntity.badRequest().build();
         }
 
         return ResponseEntity.ok(convertedAmounts);
     }
 
-//    @GetMapping("/exchangeRate")
-//    public ResponseEntity<Map<String, Double>> exchangeRate(
-//            @RequestParam String baseCurrency,
-//            @RequestParam List<String> targetCurrencies) {
-//
-//        Map<String, Double> exchangeRates = exchangeRateService.getFilteredExchangeRates(baseCurrency, targetCurrencies);
-//
-//        if (exchangeRates.isEmpty()) {
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-//        }
-//
-//        return ResponseEntity.ok(exchangeRates);
-//    }
 }
