@@ -1,5 +1,7 @@
-package com.bm.concurrency.exchangeRate;
+package com.bm.concurrency.services;
 
+import com.bm.concurrency.exchangeRate.ExchangeRateClient;
+import com.bm.concurrency.models.responseModel.ExchangeRateResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

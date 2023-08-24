@@ -1,4 +1,4 @@
-package com.bm.concurrency.exchangeRate;
+package com.bm.concurrency.models.constants;
 
 public class Constants {
     public static final String EXCHANGE_RATE_API_BASE_URL

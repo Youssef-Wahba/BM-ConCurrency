@@ -1,5 +1,7 @@
 package com.bm.concurrency.exchangeRate;
 
+import com.bm.concurrency.models.constants.Constants;
+import com.bm.concurrency.models.responseModel.ExchangeRateResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

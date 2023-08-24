@@ -1,4 +1,4 @@
-package com.bm.concurrency.exchangeRate;
+package com.bm.concurrency.models.responseModel;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,5 +1,6 @@
-package com.bm.concurrency.exchangeRate;
+package com.bm.concurrency.controllers;
 
+import com.bm.concurrency.services.ExchangeRateService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
