@@ -22,14 +22,29 @@ public class ExchangeRateController {
     @GetMapping("/exchangeRate")
     public ResponseEntity<Map<String, Double>> exchangeRate(
             @RequestParam String baseCurrency,
-            @RequestParam List<String> targetCurrencies) {
+            @RequestParam List<String> targetCurrencies,
+            @RequestParam double amount) {
 
-        Map<String, Double> exchangeRates = exchangeRateService.getFilteredExchangeRates(baseCurrency, targetCurrencies);
+        Map<String, Double> convertedAmounts = exchangeRateService.getConvertedAmounts(baseCurrency, targetCurrencies, amount);
 
-        if (exchangeRates.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        if (convertedAmounts.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
 
-        return ResponseEntity.ok(exchangeRates);
+        return ResponseEntity.ok(convertedAmounts);
     }
+
+//    @GetMapping("/exchangeRate")
+//    public ResponseEntity<Map<String, Double>> exchangeRate(
+//            @RequestParam String baseCurrency,
+//            @RequestParam List<String> targetCurrencies) {
+//
+//        Map<String, Double> exchangeRates = exchangeRateService.getFilteredExchangeRates(baseCurrency, targetCurrencies);
+//
+//        if (exchangeRates.isEmpty()) {
+//            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+//        }
+//
+//        return ResponseEntity.ok(exchangeRates);
+//    }
 }

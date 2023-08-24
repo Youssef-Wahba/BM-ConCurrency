@@ -17,24 +17,46 @@ public class ExchangeRateService {
         this.exchangeRateClient = exchangeRateClient;
     }
 
-    public Map<String, Double> getFilteredExchangeRates(String baseCurrency, List<String> targetCurrencies) {
+    public Map<String, Double> getConvertedAmounts(String baseCurrency, List<String> targetCurrencies, double amount) {
         ExchangeRateResponse response = exchangeRateClient.getExchangeRates(baseCurrency);
         Map<String, Double> conversionRates = response.getConversion_rates();
 
         if (!conversionRates.containsKey(baseCurrency)) {
-            //exception handling "base currency not found"
+           return null;
         }
 
-        Map<String, Double> filteredExchangeRates = new HashMap<>();
+        Map<String, Double> convertedAmounts = new HashMap<>();
         for (String targetCurrency : targetCurrencies) {
             if (conversionRates.containsKey(targetCurrency)) {
-                double targetRate = conversionRates.get(targetCurrency);
-                filteredExchangeRates.put(targetCurrency, targetRate);
+                double exchangeRate = conversionRates.get(targetCurrency);
+                double convertedAmount = amount * exchangeRate;
+                convertedAmounts.put(targetCurrency, convertedAmount);
             } else {
-                //exception handling "Target currency not found"
+                return null;
             }
         }
 
-        return filteredExchangeRates;
+        return convertedAmounts;
     }
+
+//    public Map<String, Double> getFilteredExchangeRates(String baseCurrency, List<String> targetCurrencies) {
+//        ExchangeRateResponse response = exchangeRateClient.getExchangeRates(baseCurrency);
+//        Map<String, Double> conversionRates = response.getConversion_rates();
+//
+//        if (!conversionRates.containsKey(baseCurrency)) {
+//            //exception handling "base currency not found"
+//        }
+//
+//        Map<String, Double> filteredExchangeRates = new HashMap<>();
+//        for (String targetCurrency : targetCurrencies) {
+//            if (conversionRates.containsKey(targetCurrency)) {
+//                double targetRate = conversionRates.get(targetCurrency);
+//                filteredExchangeRates.put(targetCurrency, targetRate);
+//            } else {
+//                //exception handling "Target currency not found"
+//            }
+//        }
+//
+//        return filteredExchangeRates;
+//    }
     }
