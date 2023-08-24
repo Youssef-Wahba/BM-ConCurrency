@@ -1,13 +1,15 @@
 package com.bm.concurrency.model;
+
 import com.bm.concurrency.utilities.enums.CountriesCode;
 import com.bm.concurrency.utilities.enums.Currencies;
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 @Data
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class CountriesInfoModel {
-    public CountriesCode countryNameCode; //EG
-    public Currencies currency; //EGP
-    public String countryFlag;
+    private final Integer id;
+    private final CountriesCode countryNameCode; //EG
+    private final Currencies currency; //EGP
+    private final String countryFlag;
 }
