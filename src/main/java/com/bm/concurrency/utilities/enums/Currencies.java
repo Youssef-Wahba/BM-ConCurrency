@@ -2,7 +2,7 @@ package com.bm.concurrency.utilities.enums;
 
 public enum Currencies {
     USD,
-    Euro,
+    EUR,
     GBP,
     AED,
     BHD,
