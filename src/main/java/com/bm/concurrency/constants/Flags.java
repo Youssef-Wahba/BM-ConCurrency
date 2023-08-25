@@ -1,4 +1,4 @@
-package com.bm.concurrency.models.constants;
+package com.bm.concurrency.constants;
 
 public class Flags {
     public static final String USA_FLAG = "https://flagcdn.com/h60/us.png";

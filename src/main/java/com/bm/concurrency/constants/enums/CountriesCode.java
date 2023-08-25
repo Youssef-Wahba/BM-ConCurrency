@@ -1,4 +1,4 @@
-package com.bm.concurrency.models.constants.enums;
+package com.bm.concurrency.constants.enums;
 
 public enum CountriesCode {
     USA,

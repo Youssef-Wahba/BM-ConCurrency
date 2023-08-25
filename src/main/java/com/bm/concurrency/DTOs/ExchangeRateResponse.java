@@ -1,12 +1,14 @@
-package com.bm.concurrency.models.entities;
+package com.bm.concurrency.DTOs;
 
+import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Map;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 public class ExchangeRateResponse {
     private Map<String, Double> conversion_rates;
 }

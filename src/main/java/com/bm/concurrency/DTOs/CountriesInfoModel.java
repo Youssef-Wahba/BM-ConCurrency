@@ -1,8 +1,8 @@
-package com.bm.concurrency.models.entities;
+package com.bm.concurrency.DTOs;
 
 
-import com.bm.concurrency.models.constants.enums.CountriesCode;
-import com.bm.concurrency.models.constants.enums.Currencies;
+import com.bm.concurrency.constants.enums.CountriesCode;
+import com.bm.concurrency.constants.enums.Currencies;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
