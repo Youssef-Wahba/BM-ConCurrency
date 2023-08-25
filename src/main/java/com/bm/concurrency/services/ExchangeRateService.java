@@ -53,6 +53,7 @@ public class ExchangeRateService {
         return countriesInfoList.stream().collect(Collectors.toMap(CountriesInfoModel::getId, Function.identity()));
     }
 
+    @Cacheable("compare-list")
     public List<Double> getConvertedAmounts(int baseCurrencyId, List<Integer> targetCurrencyIds, double amount) {
         Map<Integer, CountriesInfoModel> countriesInfoMap = getCountriesInfo();
         CountriesInfoModel baseCurrencyInfo = countriesInfoMap.get(baseCurrencyId);
