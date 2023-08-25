@@ -5,14 +5,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.Serializable;
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestDto {
+public class RequestDto  implements Serializable {
 
-   private int baseCurrencyId;
+   private Integer baseCurrencyId;
    private  List<Integer> targetCurrencyIds;
    private double amount;
 

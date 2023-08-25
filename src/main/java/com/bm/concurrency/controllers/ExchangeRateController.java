@@ -6,6 +6,7 @@ import com.bm.concurrency.services.ExchangeRateService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -18,10 +19,11 @@ public class ExchangeRateController {
     public ExchangeRateController(ExchangeRateService exchangeRateService) {
         this.exchangeRateService = exchangeRateService;
     }
-    @PostMapping("/compare")
-    public ResponseEntity<Map<Integer, Double>> convertCurrency(@RequestBody RequestDto request) {
 
-        Map<Integer, Double> convertedAmounts = exchangeRateService.getConvertedAmounts(request.getBaseCurrencyId(), request.getTargetCurrencyIds(), request.getAmount());
+
+    @PostMapping("/compare")
+    public ResponseEntity<List<Double>> convertCurrency(@RequestBody RequestDto request) {
+        List<Double> convertedAmounts = exchangeRateService.getConvertedAmounts(request.getBaseCurrencyId(), request.getTargetCurrencyIds(), request.getAmount());
 
         if (convertedAmounts == null) {
             return ResponseEntity.badRequest().build();

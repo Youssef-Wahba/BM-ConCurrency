@@ -6,8 +6,10 @@ import com.bm.concurrency.models.constants.enums.CountriesCode;
 import com.bm.concurrency.models.constants.enums.Currencies;
 import com.bm.concurrency.models.entities.CountriesInfoModel;
 import com.bm.concurrency.models.entities.ExchangeRateResponse;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +26,7 @@ public class ExchangeRateService {
 
     }
 
+    @Cacheable("ConversionResult")
     public Map<String,Double> conversion(String source, String target, double amount ) {
 
         Map<String ,Object>  conversionJson = exchangeRateClient.convert(source,target,amount);
@@ -32,6 +35,7 @@ public class ExchangeRateService {
         return   mapResponse;
     }
 
+    @Cacheable("Countries")
     public Map<Integer, CountriesInfoModel> getCountriesInfo() {
         List<CountriesInfoModel> countriesInfoList = List.of(
                 new CountriesInfoModel(1, CountriesCode.USA, Currencies.USD, Flags.USA_FLAG),
@@ -49,31 +53,31 @@ public class ExchangeRateService {
         return countriesInfoList.stream().collect(Collectors.toMap(CountriesInfoModel::getId, Function.identity()));
     }
 
-    public Map<Integer, Double> getConvertedAmounts(int baseCurrencyId, List<Integer> targetCurrencyIds, double amount) {
+    public List<Double> getConvertedAmounts(int baseCurrencyId, List<Integer> targetCurrencyIds, double amount) {
         Map<Integer, CountriesInfoModel> countriesInfoMap = getCountriesInfo();
         CountriesInfoModel baseCurrencyInfo = countriesInfoMap.get(baseCurrencyId);
 
         if (baseCurrencyInfo == null) {
-            return null; //exception handling
+            return null; // Exception handling
         }
 
         ExchangeRateResponse response = exchangeRateClient.getExchangeRates(baseCurrencyInfo.getCurrency().toString());
         Map<String, Double> conversionRates = response.getConversion_rates();
 
         if (!conversionRates.containsKey(baseCurrencyInfo.getCurrency().toString())) {
-            return null; //exception handling
+            return null; // Exception handling
         }
 
-        Map<Integer, Double> convertedAmounts = new HashMap<>();
+        List<Double> convertedAmounts = new ArrayList<>();
         for (int targetCurrencyId : targetCurrencyIds) {
             CountriesInfoModel targetCurrencyInfo = countriesInfoMap.get(targetCurrencyId);
 
             if (targetCurrencyInfo != null && conversionRates.containsKey(targetCurrencyInfo.getCurrency().toString())) {
                 double exchangeRate = conversionRates.get(targetCurrencyInfo.getCurrency().toString());
                 double convertedAmount = amount * exchangeRate;
-                convertedAmounts.put(targetCurrencyId, convertedAmount);
+                convertedAmounts.add(convertedAmount);
             } else {
-                return null;// exception handling
+                return null; // Exception handling
             }
         }
 
