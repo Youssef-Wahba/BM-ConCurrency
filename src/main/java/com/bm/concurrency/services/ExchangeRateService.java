@@ -5,7 +5,7 @@ import com.bm.concurrency.models.constants.Flags;
 import com.bm.concurrency.models.constants.enums.CountriesCode;
 import com.bm.concurrency.models.constants.enums.Currencies;
 import com.bm.concurrency.models.entities.CountriesInfoModel;
-import com.bm.concurrency.models.responseModel.ExchangeRateResponse;
+import com.bm.concurrency.models.entities.ExchangeRateResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -22,6 +22,14 @@ public class ExchangeRateService {
     public ExchangeRateService(ExchangeRateClient exchangeRateClient) {
         this.exchangeRateClient = exchangeRateClient;
 
+    }
+
+    public Map<String,Double> conversion(String source, String target, double amount ) {
+
+        Map<String ,Object>  conversionJson = exchangeRateClient.convert(source,target,amount);
+        Map<String  , Double>  mapResponse = new HashMap<>();
+        mapResponse.put("conversion_result", (double)conversionJson.get("conversion_result"));
+        return   mapResponse;
     }
 
     public Map<Integer, CountriesInfoModel> getCountriesInfo() {

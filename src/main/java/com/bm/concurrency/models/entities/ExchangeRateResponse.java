@@ -1,4 +1,4 @@
-package com.bm.concurrency.models.responseModel;
+package com.bm.concurrency.models.entities;
 
 import lombok.Getter;
 import lombok.Setter;
