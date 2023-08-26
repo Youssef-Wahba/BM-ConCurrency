@@ -1,4 +1,4 @@
-package com.bm.concurrency.payload;
+package com.bm.concurrency.payload.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.util.Date;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ErrorDetails {
+public class ErrorDetailsDTO {
     private Date timestamp;
     private String message;
     private String details;

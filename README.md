@@ -1,75 +1,162 @@
-# ConCurrency exhange app 🤑🤑
+# ConCurrency exhange app 🚀🤑
 
-## **Deployed via AWS** [BM-ConCurrency](https://shopping-app-bm.herokuapp.com)
+## **Overview 💼**
 
-![Heroku](https://img.shields.io/badge/heroku-%23430098.svg?style=for-the-badge&logo=heroku&logoColor=white)
+The currency conversion app aims to provide users with real-time and accurate currency
+conversion rates. It will support a wide range of currencies and offer a
+user-friendly interface. The app will be developed for multiple platforms, including web, Android,
+and iOS.
+
+## **Deployed via AWS** [BM-ConCurrency](http://ec2-18-134-206-213.eu-west-2.compute.amazonaws.com)
+
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 
 # **Service Functionality** 🧠
 
 - A Backend Rest-API designed using MVC Design Architecture.
-- allow users to convert between different currencies.
-- fetch real-time exchange rates.
-- regularly update the rates to reflect the most recent changes in the currency market..
-- mark specific currencies as their favorites for quick access.
+- Allow users to convert between different currencies.
+- Fetch real-time exchange rates.
+- Regularly update the rates to reflect the most recent changes in the currency market..
+- Mark specific currencies as their favorites for quick access.
 - Error and Exception handling.
-- Supporting logging in different layers like Controller and Service.
+- Documentation using swagger and openai
+- Validation layer
+- Caching with redis
+- Unit testing
 
 ```
-├── mvnw
-├── mvnw.cmd
-├── pom.xml
-├── README.md
-└── src
-    ├── main
-    │   ├── java
-    │   │   └── com
-    │   │       └── bm
-    │   │           ├── config
-    │   │           │   └── SecurityConfig.java
-    │   │           ├── controller
-    │   │           │   ├── CategoryController.java
-    │   │           │   ├── LoginController.java
-    │   │           │   ├── ProductController.java
-    │   │           │   ├── ProfileController.java
-    │   │           │   └── RegistrationController.java
-    │   │           ├── dto
-    │   │           │   ├── CustomUserDetails.java
-    │   │           │   ├── LoginRequest.java
-    │   │           │   ├── LoginResponse.java
-    │   │           │   ├── ProductDto.java
-    │   │           │   └── UpdateRequest.java
-    │   │           ├── entity
-    │   │           │   ├── Category.java
-    │   │           │   ├── Product.java
-    │   │           │   └── User.java
-    │   │           ├── exception
-    │   │           │   ├── ErrorResponse.java
-    │   │           │   └── Errors.java
-    │   │           ├── filter
-    │   │           │   └── JwtFilter.java
-    │   │           ├── repository
-    │   │           │   ├── CategoryRepository.java
-    │   │           │   ├── ProductRepository.java
-    │   │           │   └── UserRepository.java
-    │   │           ├── service
-    │   │           │   ├── CategoryService.java
-    │   │           │   ├── impl
-    │   │           │   │   ├── CategoryServiceImpl.java
-    │   │           │   │   ├── LoginServiceImpl.java
-    │   │           │   │   ├── ProductServiceImpl.java
-    │   │           │   │   ├── ProfileServiceImpl.java
-    │   │           │   │   ├── RegistrationServiceImpl.java
-    │   │           │   │   └── UserServiceImpl.java
-    │   │           │   ├── LoginService.java
-    │   │           │   ├── ProductService.java
-    │   │           │   ├── ProfileService.java
-    │   │           │   ├── RegistrationService.java
-    │   │           │   └── UserService.java
-    │   │           ├── ShoppingApplication.java
-    │   │           └── util
-    │   │               └── JwtUtil.java
-    │   └── resources
-    │       └── application.properties
+|   .gitignore
+|   mvnw
+|   mvnw.cmd
+|   pom.xml
+|   README.md
+|
++---.github
+|   \---workflows
+|           maven.yml
+|
++---.idea
+|       .gitignore
+|       compiler.xml
+|       encodings.xml
+|       jarRepositories.xml
+|       misc.xml
+|       uiDesigner.xml
+|       vcs.xml
+|       workspace.xml
+|
++---.mvn
+|   \---wrapper
+|           maven-wrapper.jar
+|           maven-wrapper.properties
+|
++---src
+|   +---main
+|   |   +---java
+|   |   |   \---com
+|   |   |       \---bm
+|   |   |           \---concurrency
+|   |   |               |   ConCurrencyApplication.java
+|   |   |               |
+|   |   |               +---client
+|   |   |               |       ExchangeRateClient.java
+|   |   |               |
+|   |   |               +---constants
+|   |   |               |   \---enums
+|   |   |               |           Currency.java
+|   |   |               |
+|   |   |               +---controllers
+|   |   |               |       CurrencyController.java
+|   |   |               |
+|   |   |               +---exception
+|   |   |               |       CurrencyApiException.java
+|   |   |               |       GlobalExceptionHandler.java
+|   |   |               |       ResourceNotFoundException.java
+|   |   |               |
+|   |   |               +---payload
+|   |   |               |   +---DTOs
+|   |   |               |   |       CompareDto.java
+|   |   |               |   |       ConvertDTO.java
+|   |   |               |   |       CurrencyDTO.java
+|   |   |               |   |
+|   |   |               |   +---error
+|   |   |               |   |       ErrorDetailsDTO.java
+|   |   |               |   |       ValidationErrorDTO.java
+|   |   |               |   |
+|   |   |               |   \---response
+|   |   |               |           CompareResponse.java
+|   |   |               |           ConversionResponse.java
+|   |   |               |           CurrencyListResponse.java
+|   |   |               |           ExchangeRateResponse.java
+|   |   |               |
+|   |   |               \---service
+|   |   |                   |   IConcurrencyService.java
+|   |   |                   |
+|   |   |                   \---serviceImp
+|   |   |                           ConcurrencyService.java
+|   |   |
+|   |   \---resources
+|   |           application-dev.properties
+|   |           application-prod.properties
+|   |           application.properties
+|   |
+|   \---test
+|       \---java
+|           \---com
+|               \---bm
+|                   \---concurrency
+|                           ConCurrencyApplicationTests.java
+|
+\---target
+    +---classes
+    |   |   application-dev.properties
+    |   |   application-prod.properties
+    |   |   application.properties
+    |   |
+    |   \---com
+    |       \---bm
+    |           \---concurrency
+    |               |   ConCurrencyApplication.class
+    |               |
+    |               +---client
+    |               |       ExchangeRateClient.class
+    |               |
+    |               +---constants
+    |               |   \---enums
+    |               |           Currency.class
+    |               |
+    |               +---controllers
+    |               |       CurrencyController.class
+    |               |
+    |               +---exception
+    |               |       CurrencyApiException.class
+    |               |       GlobalExceptionHandler.class
+    |               |       ResourceNotFoundException.class
+    |               |
+    |               +---payload
+    |               |   +---DTOs
+    |               |   |       CompareDto.class
+    |               |   |       ConvertDTO.class
+    |               |   |       CurrencyDTO.class
+    |               |   |
+    |               |   +---error
+    |               |   |       ErrorDetailsDTO.class
+    |               |   |       ValidationErrorDTO.class
+    |               |   |
+    |               |   \---response
+    |               |           CompareResponse.class
+    |               |           ConversionResponse.class
+    |               |           CurrencyListResponse.class
+    |               |           ExchangeRateResponse.class
+    |               |
+    |               \---service
+    |                   |   IConcurrencyService.class
+    |                   |
+    |                   \---serviceImp
+    |                           ConcurrencyService.class
+    |
+    \---generated-sources
+        \---annotations
 ```
 
 # **Tech Stack ⚡**
@@ -78,7 +165,7 @@
 - Backend Framework: Spring Boot v3.1.2
 - Deployment: AWS
 - API Documentation: Swagger via OpenApi 3.0
-- Logger: SLF4J
+- Caching: Redis
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
@@ -90,8 +177,10 @@
 
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 
+![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
+
 # **Features to add in the future 💭**
 
 - Supporting more currencies
 
-# API Documentation 📝 via [|Swagger|](https://shopping-app-bm.herokuapp.com/swagger-ui/index.html#/)
+# API Documentation 📝 via [Swagger](http://ec2-18-134-206-213.eu-west-2.compute.amazonaws.com/swagger-ui/index.html)
