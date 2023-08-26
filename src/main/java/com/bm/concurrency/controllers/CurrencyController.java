@@ -1,13 +1,13 @@
 package com.bm.concurrency.controllers;
 
-import com.bm.concurrency.DTOs.ConversionResponse;
-import com.bm.concurrency.DTOs.RequestDto;
+import com.bm.concurrency.payload.response.CompareResponse;
+import com.bm.concurrency.payload.response.ConversionResponse;
+import com.bm.concurrency.payload.response.CurrencyListResponse;
+import com.bm.concurrency.payload.DTOs.CompareDto;
 import com.bm.concurrency.service.IConcurrencyService;
-import com.bm.concurrency.service.serviceImp.ConcurrencyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -15,20 +15,18 @@ import java.util.Map;
 public class CurrencyController {
     private final IConcurrencyService concurrencyService;
 
+    @GetMapping
+    public ResponseEntity<CurrencyListResponse> getAllCurrencies(){
+        return ResponseEntity.ok(concurrencyService.getCurrencyInfo());
+    }
     @PostMapping("/compare")
-    public ResponseEntity<Map<Integer, Double>> convertCurrency(@RequestBody RequestDto request) {
-
-        Map<Integer, Double> convertedAmounts = concurrencyService.getConvertedAmounts(request.getBaseCurrencyId(), request.getTargetCurrencyIds(), request.getAmount());
-
-        if (convertedAmounts == null) {
-            return ResponseEntity.badRequest().build();
-        }
-
-        return ResponseEntity.ok(convertedAmounts);
+    public ResponseEntity<CompareResponse> compareCurrencies(@RequestBody CompareDto request) {
+        CompareResponse response = concurrencyService.getConvertedAmounts(request.getBaseCurrencyId(), request.getTargetCurrencyIds(), request.getAmount());
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/convert/{source}/{target}/{amount}")
-    public ResponseEntity<ConversionResponse> convert(
+    public ResponseEntity<ConversionResponse> convertCurrencies(
             @PathVariable("source") String source,
             @PathVariable("target")   String target,
             @PathVariable("amount")  double amount )   {

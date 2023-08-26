@@ -1,6 +1,6 @@
 package com.bm.concurrency.client;
 
-import com.bm.concurrency.DTOs.ExchangeRateResponse;
+import com.bm.concurrency.payload.response.ExchangeRateResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
