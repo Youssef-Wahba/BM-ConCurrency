@@ -1,13 +1,14 @@
-package com.bm.concurrency.DTOs;
+package com.bm.concurrency.payload.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CountryListResponse {
-    List<CountriesInfoModel> country_list;
+public class CompareResponse {
+    private List<Double> compare_result;
 }

@@ -1,9 +1,7 @@
-package com.bm.concurrency.DTOs;
+package com.bm.concurrency.payload.response;
 
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.util.Map;
 
