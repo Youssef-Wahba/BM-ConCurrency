@@ -31,7 +31,7 @@ public class ConcurrencyService implements IConcurrencyService {
         return new ConversionResponse((double) conversionJson.get("conversion_result"));
     }
 
-    public CompareResponse getConvertedAmounts(int baseCurrencyId, List<Integer> targetCurrencyIds, double amount) {
+    public CompareResponse compare(int baseCurrencyId, List<Integer> targetCurrencyIds, double amount) {
         CurrencyListResponse countriesInfoList = getCurrencyInfo();
         if (baseCurrencyId < 1 ||  baseCurrencyId > countriesInfoList.getCurrency_list().size())
             throw new ResourceNotFoundException("Currency","id",Integer.toString(baseCurrencyId));

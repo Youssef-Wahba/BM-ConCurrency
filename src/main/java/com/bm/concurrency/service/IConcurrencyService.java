@@ -10,5 +10,5 @@ public interface IConcurrencyService {
 
     CurrencyListResponse getCurrencyInfo();
     ConversionResponse conversion(String source, String target, double amount);
-    CompareResponse getConvertedAmounts(int baseCurrencyId, List<Integer> targetCurrencyIds, double amount);
+    CompareResponse compare(int baseCurrencyId, List<Integer> targetCurrencyIds, double amount);
 }

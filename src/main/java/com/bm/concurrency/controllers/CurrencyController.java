@@ -26,7 +26,7 @@ public class CurrencyController {
     }
     @PostMapping("/compare")
     public ResponseEntity<CompareResponse> compareCurrencies(@Valid @RequestBody CompareDto request) {
-        CompareResponse response = concurrencyService.getConvertedAmounts(request.getBaseCurrencyId(), request.getTargetCurrencyIds(), request.getAmount());
+        CompareResponse response = concurrencyService.compare(request.getBaseCurrencyId(), request.getTargetCurrencyIds(), request.getAmount());
         return ResponseEntity.ok(response);
     }
 
