@@ -9,9 +9,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+
+import java.util.*;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -30,11 +29,11 @@ public class GlobalExceptionHandler {
 //    handling validation exception
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ValidationErrorDTO> handleValidationException(MethodArgumentNotValidException exception){
-        Map<String, String> errors = new HashMap<>();
+        List<String> errors = new ArrayList<>();
         exception.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
+            String property = ((FieldError) error).getField();
+            String message = error.getDefaultMessage();
+            errors.add(String.format("'\\%s\\' : %s",property,message));
         });
         return new ResponseEntity<>(new ValidationErrorDTO(errors),HttpStatus.BAD_REQUEST);
     }

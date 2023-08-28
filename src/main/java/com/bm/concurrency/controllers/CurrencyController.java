@@ -5,7 +5,8 @@ import com.bm.concurrency.payload.response.CompareResponse;
 import com.bm.concurrency.payload.response.ConversionResponse;
 import com.bm.concurrency.payload.response.CurrencyListResponse;
 import com.bm.concurrency.payload.DTOs.CompareDto;
-import com.bm.concurrency.service.IConcurrencyService;
+import com.bm.concurrency.payload.response.ExchangeRateResponse;
+import com.bm.concurrency.service.ICurrencyService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,20 +19,20 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("api/v1/currency")
 public class CurrencyController {
-    private final IConcurrencyService concurrencyService;
+    private final ICurrencyService concurrencyService;
 
     @GetMapping
     public ResponseEntity<CurrencyListResponse> getAllCurrencies(){
-        return ResponseEntity.ok(concurrencyService.getCurrencyInfo());
+        return ResponseEntity.ok(concurrencyService.getCurrencyList());
     }
     @PostMapping("/compare")
-    public ResponseEntity<CompareResponse> compareCurrencies(@Valid @RequestBody CompareDto request) {
-        CompareResponse response = concurrencyService.compare(request.getBaseCurrencyId(), request.getTargetCurrencyIds(), request.getAmount());
+    public ResponseEntity<CompareResponse> compareCurrencies(@RequestBody @Valid CompareDto request) {
+        ExchangeRateResponse exchangeRateResponse = concurrencyService.getAllCurrencyRates(request.getBaseCurrencyId());
+        CompareResponse response = concurrencyService.compare(request.getBaseCurrencyId(), request.getTargetCurrencyIds(), request.getAmount(), exchangeRateResponse);
         return ResponseEntity.ok(response);
     }
-
     @GetMapping("/convert/{source}/{target}/{amount}")
     public ResponseEntity<ConversionResponse> convertCurrencies(@Valid ConvertDTO convertDTO)   {
-        return ResponseEntity.ok(concurrencyService.conversion(convertDTO.getSource(), convertDTO.getTarget(),convertDTO.getAmount()));
+        return ResponseEntity.ok(concurrencyService.convert(convertDTO.getSource(), convertDTO.getTarget(),convertDTO.getAmount()));
     }
 }
