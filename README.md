@@ -4,7 +4,7 @@
 
 The currency conversion app aims to provide users with real-time and accurate currency
 conversion rates. It will support a wide range of currencies and offer a
-user-friendly interface. The app will be developed for multiple platforms, including web, Android,
+user friendly interface. The app will be developed for multiple platforms, including web, Android,
 and iOS.
 
 ## **Deployed via AWS** [BM-ConCurrency](http://ec2-18-134-206-213.eu-west-2.compute.amazonaws.com)
