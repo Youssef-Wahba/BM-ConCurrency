@@ -10,7 +10,7 @@ public interface ICurrencyService {
 
     CurrencyListResponse getCurrencyList();
     ConversionResponse convert(Integer source, Integer target, double amount);
-    CompareResponse compare(Integer baseCurrencyId, List<Integer> targetCurrencyIds, double amount, ExchangeRateResponse exchangeRateResponse);
+    CompareResponse compareConvertedAmounts(int baseCurrencyId, List<Integer> targetCurrencyIds, double amount);
     ExchangeRateResponse getAllCurrencyRates(Integer baseCurrency);
     void clearCache();
 }
