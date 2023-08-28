@@ -27,7 +27,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CurrencyServiceImpl implements ICurrencyService {
     private final ExchangeRateClient exchangeRateClient;
-    CurrencyListResponse currencyList = getCurrencyList();
+   public  CurrencyListResponse currencyList = getCurrencyList();
 
     public CurrencyListResponse getCurrencyList() { return new CurrencyListResponse(); }
 
@@ -67,7 +67,7 @@ public class CurrencyServiceImpl implements ICurrencyService {
         return response.getConversion_rates();
     }
 
-    private List<Double> getConvertedAmounts(CurrencyListResponse countriesInfoList, Map<String, Double> conversionRates, double amount, List<Integer> targetCurrencyIds) {
+    public List<Double> getConvertedAmounts(CurrencyListResponse countriesInfoList, Map<String, Double> conversionRates, double amount, List<Integer> targetCurrencyIds) {
         List<Double> convertedAmounts = new ArrayList<>();
 
         for (Integer targetCurrencyId : targetCurrencyIds) {
