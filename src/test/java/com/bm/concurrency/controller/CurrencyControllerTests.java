@@ -71,7 +71,7 @@ public class CurrencyControllerTests {
         CompareResponse response = new CompareResponse();
         response.setCompare_result(Arrays.asList(0.92517166, 30.83792973));
 
-        when(currencyService.compareConvertedAmounts(anyInt(), anyList(), anyDouble()))
+        when(currencyService.compareConvertedAmounts(eq(1), eq(Arrays.asList(2, 11)), eq(1.0)))
                 .thenReturn(response);
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -89,7 +89,7 @@ public class CurrencyControllerTests {
         // Assertions
         assertEquals(2, actualResponse.getCompare_result().size());
 
-        assertEquals(1.92517166, actualResponse.getCompare_result().get(0), 0.000001);
+        assertEquals(0.92517166, actualResponse.getCompare_result().get(0), 0.000001);
         assertEquals(30.83792973, actualResponse.getCompare_result().get(1), 0.000001);
     }
 
