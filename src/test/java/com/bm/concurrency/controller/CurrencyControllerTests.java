@@ -1,9 +1,12 @@
 package com.bm.concurrency.controller;
 
+import com.bm.concurrency.constants.enums.Currency;
 import com.bm.concurrency.controllers.CurrencyController;
-import com.bm.concurrency.payload.DTOs.CompareDto;
+import com.bm.concurrency.payload.DTOs.CurrencyDTO;
 import com.bm.concurrency.payload.response.CompareResponse;
 import com.bm.concurrency.payload.response.ConversionResponse;
+import com.bm.concurrency.payload.response.CurrencyListResponse;
+import com.bm.concurrency.payload.response.ExchangeRateResponse;
 import com.bm.concurrency.service.serviceImp.CurrencyServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
@@ -13,9 +16,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
@@ -25,6 +36,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.util.StreamUtils;
 
 
 @WebMvcTest( controllers = CurrencyController.class)
@@ -47,17 +59,27 @@ public class CurrencyControllerTests {
         CompareResponse response = new CompareResponse();
         response.setCompare_result(Arrays.asList(0.92517166, 30.83792973));
 
-        when(currencyService.compareConvertedAmounts(eq(1), eq(Arrays.asList(2, 11)), eq(1.0)))
+        ExchangeRateResponse exchangeRateResponse = currencyService.getAllCurrencyRates(1);
+
+        System.out.println("Mock ExchangeRateResponse content: " + objectMapper.writeValueAsString(exchangeRateResponse));
+
+        when(currencyService.compare(eq(1), eq(Arrays.asList(2, 11)), eq(1.0), eq(exchangeRateResponse)))
                 .thenReturn(response);
+
+        String requestJson = "{\"baseCurrencyId\": 1,\"targetCurrencyIds\": [2, 11],\"amount\": 1}";
+
+        System.out.println("Request JSON content: " + requestJson);
 
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/currency/compare")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"baseCurrencyId\": 1,\"targetCurrencyIds\": [2, 11],\"amount\": 1}"))
+                        .content(requestJson))
                 .andExpect(status().isOk())
                 .andReturn();
 
-        CompareResponse actualResponse = new ObjectMapper().readValue(
-                mvcResult.getResponse().getContentAsString(), CompareResponse.class);
+        String responseContent = mvcResult.getResponse().getContentAsString();
+        System.out.println("Response JSON content: " + responseContent);
+
+        CompareResponse actualResponse = objectMapper.readValue(responseContent, CompareResponse.class);
 
         assertEquals(2, actualResponse.getCompare_result().size());
         assertEquals(0.92517166, actualResponse.getCompare_result().get(0), 0.000001);
@@ -82,6 +104,30 @@ public class CurrencyControllerTests {
 
         verify(currencyService).convert(eq(sourceCurrencyId), eq(targetCurrencyId), eq(amount));
     }
+
+    @Test
+    public void testGetAllCurrencies() throws Exception {
+        // Load the expected JSON from the file
+        String expectedJson = loadResourceAsString("expected-currencies.json");
+
+        // Mock the behavior of currencyService.getCurrencyList()
+        when(currencyService.getCurrencyList()).thenReturn(new CurrencyListResponse());
+
+        // Perform the GET request and verify the response
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/currency")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().json(expectedJson));
+    }
+
+    private String loadResourceAsString(String resourcePath) throws IOException {
+        ClassPathResource resource = new ClassPathResource(resourcePath);
+        byte[] bytes = StreamUtils.copyToByteArray(resource.getInputStream());
+        return new String(bytes, StandardCharsets.UTF_8);
+    }
+
+
+
 }
 
 

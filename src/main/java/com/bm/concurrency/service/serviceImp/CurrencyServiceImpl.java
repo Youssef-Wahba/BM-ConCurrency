@@ -32,23 +32,23 @@ public class CurrencyServiceImpl implements ICurrencyService {
     public CurrencyListResponse getCurrencyList() { return new CurrencyListResponse(); }
 
     public ConversionResponse convert(Integer source, Integer target, double amount) {
-        if (source < 1 || source > currencyList.getCurrency_list().size())
-            throw new ResourceNotFoundException("Currency","id",Integer.toString(source));
-        if (target < 1 ||  target > currencyList.getCurrency_list().size())
-            throw new ResourceNotFoundException("Currency","id",Integer.toString(source));
+        CurrencyValidator.validateCurrencyId(source,getCurrencyList());
+        CurrencyValidator.validateCurrencyId(target,getCurrencyList());
+
         String sourceCurrencyCode = currencyList.getCurrency_list().get(source - 1).getCurrencyCode();
         String targetCurrencyCode = currencyList.getCurrency_list().get(target - 1).getCurrencyCode();
+
         Map<String, Object> conversionJson = exchangeRateClient.convert(sourceCurrencyCode, targetCurrencyCode, amount);
         return new ConversionResponse((double) conversionJson.get("conversion_result"));
     }
 
-    public CompareResponse compareConvertedAmounts(int baseCurrencyId, List<Integer> targetCurrencyIds, double amount) {
+    public CompareResponse compare(int baseCurrencyId, List<Integer> targetCurrencyIds, double amount, ExchangeRateResponse exchangeRateResponse) {
         CurrencyListResponse countriesInfoList = getCurrencyList();
 
         CurrencyValidator.validateCurrenciesIds(baseCurrencyId, targetCurrencyIds, countriesInfoList);
 
         CurrencyDTO baseCurrencyInfo = getBaseCurrencyInfo(baseCurrencyId, countriesInfoList);
-        Map<String, Double> conversionRates = getConversionRates(baseCurrencyInfo.getCurrencyCode());
+        Map<String, Double> conversionRates = exchangeRateResponse.getConversion_rates();
 
         CurrencyValidator.validateCurrencyCode(conversionRates, baseCurrencyInfo.getCurrencyCode());
 
@@ -62,10 +62,6 @@ public class CurrencyServiceImpl implements ICurrencyService {
         return countriesInfoList.getCurrency_list().get(baseCurrencyId - 1);
     }
 
-    private Map<String, Double> getConversionRates(String currencyCode) {
-        ExchangeRateResponse response = exchangeRateClient.getExchangeRates(currencyCode);
-        return response.getConversion_rates();
-    }
 
     public List<Double> getConvertedAmounts(CurrencyListResponse countriesInfoList, Map<String, Double> conversionRates, double amount, List<Integer> targetCurrencyIds) {
         List<Double> convertedAmounts = new ArrayList<>();
