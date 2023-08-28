@@ -32,6 +32,7 @@ public class CurrencyServiceImpl implements ICurrencyService {
     public CurrencyListResponse getCurrencyList() { return new CurrencyListResponse(); }
 
     public ConversionResponse convert(Integer source, Integer target, double amount) {
+
         CurrencyValidator.validateCurrencyId(source,getCurrencyList());
         CurrencyValidator.validateCurrencyId(target,getCurrencyList());
 

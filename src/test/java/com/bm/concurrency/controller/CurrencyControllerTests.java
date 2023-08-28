@@ -1,8 +1,6 @@
 package com.bm.concurrency.controller;
 
-import com.bm.concurrency.constants.enums.Currency;
 import com.bm.concurrency.controllers.CurrencyController;
-import com.bm.concurrency.payload.DTOs.CurrencyDTO;
 import com.bm.concurrency.payload.response.CompareResponse;
 import com.bm.concurrency.payload.response.ConversionResponse;
 import com.bm.concurrency.payload.response.CurrencyListResponse;
@@ -19,19 +17,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
