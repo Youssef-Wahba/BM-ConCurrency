@@ -9,12 +9,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ConvertDTO {
-    @NotNull
+    @NotNull(message = "Base currency Id is mandatory")
     private Integer source;
-    @NotNull
+    @NotNull(message = "Target currency Id is mandatory")
     private Integer target;
 
-    @NotNull
+    @NotNull(message = "Amount is mandatory")
     @Min(value = 0, message = "Amount must be greater than 0")
     private double amount;
 }

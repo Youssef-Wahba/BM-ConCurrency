@@ -23,6 +23,7 @@ and iOS.
 - Validation layer.
 - Caching with redis and cache clean every hour.
 - Unit testing on service and controller.
+- Logging
 
 ```
 |   .gitignore
@@ -97,6 +98,7 @@ and iOS.
 |   |   |               +---utils
 |   |   |               |       CacheClean.java
 |   |   |               |       ExchangeRateClient.java
+|   |   |               |       Logger.java
 |   |   |               |
 |   |   |               \---validation
 |   |   |                       CurrencyValidator.java
@@ -174,12 +176,28 @@ and iOS.
     |               +---utils
     |               |       CacheClean.class
     |               |       ExchangeRateClient.class
+    |               |       Logger.class
     |               |
     |               \---validation
     |                       CurrencyValidator.class
     |
-    \---generated-sources
-        \---annotations
+    +---generated-sources
+    |   \---annotations
+    +---generated-test-sources
+    |   \---test-annotations
+    \---test-classes
+        |   classpath.index
+        |
+        \---com
+            \---bm
+                \---concurrency
+                    |   ConCurrencyApplicationTests.class
+                    |
+                    +---controller
+                    |       CurrencyControllerTests.class
+                    |
+                    \---service
+                            CurrencyServiceTests.class
 ```
 
 # **Tech Stack ⚡**
