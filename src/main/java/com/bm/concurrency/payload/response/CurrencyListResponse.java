@@ -9,8 +9,9 @@ import java.util.List;
 
 @Data
 public class CurrencyListResponse {
-    List<CurrencyDTO> currency_list = new ArrayList<>();
+    List<CurrencyDTO> currency_list;
     public CurrencyListResponse(){
+        currency_list = new ArrayList<>();
         currency_list.add(new CurrencyDTO(Currency.USD));
         currency_list.add(new CurrencyDTO(Currency.EUR));
         currency_list.add(new CurrencyDTO(Currency.GBP));

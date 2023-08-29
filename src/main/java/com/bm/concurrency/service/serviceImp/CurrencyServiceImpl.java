@@ -25,14 +25,15 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class CurrencyServiceImpl implements ICurrencyService {
     private final ExchangeRateClient exchangeRateClient;
-   public  CurrencyListResponse currencyList = getCurrencyList();
+    private final  CurrencyValidator validator;
+    public  CurrencyListResponse currencyList = getCurrencyList();
 
     public CurrencyListResponse getCurrencyList() { return new CurrencyListResponse(); }
 
     public ConversionResponse convert(Integer source, Integer target, double amount) {
 
-        CurrencyValidator.validateCurrencyId(source,getCurrencyList());
-        CurrencyValidator.validateCurrencyId(target,getCurrencyList());
+        validator.validateCurrencyId(source,getCurrencyList());
+        validator.validateCurrencyId(target,getCurrencyList());
 
         String sourceCurrencyCode = currencyList.getCurrency_list().get(source - 1).getCurrencyCode();
         String targetCurrencyCode = currencyList.getCurrency_list().get(target - 1).getCurrencyCode();
@@ -44,12 +45,12 @@ public class CurrencyServiceImpl implements ICurrencyService {
     public CompareResponse compare(int baseCurrencyId, List<Integer> targetCurrencyIds, double amount, ExchangeRateResponse exchangeRateResponse) {
         CurrencyListResponse countriesInfoList = getCurrencyList();
 
-        CurrencyValidator.validateCurrenciesIds(baseCurrencyId, targetCurrencyIds, countriesInfoList);
+        validator.validateCurrenciesIds(baseCurrencyId, targetCurrencyIds, countriesInfoList);
 
         CurrencyDTO baseCurrencyInfo = getBaseCurrencyInfo(baseCurrencyId, countriesInfoList);
         Map<String, Double> conversionRates = exchangeRateResponse.getConversion_rates();
 
-        CurrencyValidator.validateCurrencyCode(conversionRates, baseCurrencyInfo.getCurrencyCode());
+        validator.validateCurrencyCode(conversionRates, baseCurrencyInfo.getCurrencyCode());
 
         List<Double> convertedAmounts = getConvertedAmounts(countriesInfoList, conversionRates, amount, targetCurrencyIds);
 
@@ -69,7 +70,7 @@ public class CurrencyServiceImpl implements ICurrencyService {
             CurrencyDTO targetCurrencyInfo = countriesInfoList.getCurrency_list().get(targetCurrencyId - 1);
 
             if (targetCurrencyInfo != null) {
-                CurrencyValidator.validateCurrencyCode(conversionRates, targetCurrencyInfo.getCurrencyCode());
+                validator.validateCurrencyCode(conversionRates, targetCurrencyInfo.getCurrencyCode());
 
                 double exchangeRate = conversionRates.get(targetCurrencyInfo.getCurrencyCode());
                 double convertedAmount = amount * exchangeRate;
