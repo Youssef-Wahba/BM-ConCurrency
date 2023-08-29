@@ -1,4 +1,4 @@
-package com.bm.concurrency.client;
+package com.bm.concurrency.utils;
 
 import com.bm.concurrency.service.ICurrencyService;
 import lombok.RequiredArgsConstructor;
