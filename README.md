@@ -16,13 +16,13 @@ and iOS.
 - A Backend Rest-API designed using MVC Design Architecture.
 - Allow users to convert between different currencies.
 - Fetch real-time exchange rates.
-- Regularly update the rates to reflect the most recent changes in the currency market..
+- Regularly update the rates to reflect the most recent changes in the currency market.
 - Mark specific currencies as their favorites for quick access.
 - Error and Exception handling.
-- Documentation using swagger and openai
-- Validation layer
-- Caching with redis
-- Unit testing
+- Documentation using swagger and openai.
+- Validation layer.
+- Caching with redis and cache clean every hour.
+- Unit testing on service and controller.
 
 ```
 |   .gitignore
@@ -41,7 +41,6 @@ and iOS.
 |       encodings.xml
 |       jarRepositories.xml
 |       misc.xml
-|       uiDesigner.xml
 |       vcs.xml
 |       workspace.xml
 |
@@ -58,8 +57,8 @@ and iOS.
 |   |   |           \---concurrency
 |   |   |               |   ConCurrencyApplication.java
 |   |   |               |
-|   |   |               +---client
-|   |   |               |       ExchangeRateClient.java
+|   |   |               +---config
+|   |   |               |       RedisManager.java
 |   |   |               |
 |   |   |               +---constants
 |   |   |               |   \---enums
@@ -89,37 +88,52 @@ and iOS.
 |   |   |               |           CurrencyListResponse.java
 |   |   |               |           ExchangeRateResponse.java
 |   |   |               |
-|   |   |               \---service
-|   |   |                   |   IConcurrencyService.java
-|   |   |                   |
-|   |   |                   \---serviceImp
-|   |   |                           ConcurrencyService.java
+|   |   |               +---service
+|   |   |               |   |   ICurrencyService.java
+|   |   |               |   |
+|   |   |               |   \---serviceImp
+|   |   |               |           CurrencyServiceImpl.java
+|   |   |               |
+|   |   |               +---utils
+|   |   |               |       CacheClean.java
+|   |   |               |       ExchangeRateClient.java
+|   |   |               |
+|   |   |               \---validation
+|   |   |                       CurrencyValidator.java
 |   |   |
 |   |   \---resources
 |   |           application-dev.properties
 |   |           application-prod.properties
 |   |           application.properties
+|   |           expected-currencies.json
 |   |
 |   \---test
 |       \---java
 |           \---com
 |               \---bm
 |                   \---concurrency
-|                           ConCurrencyApplicationTests.java
+|                       |   ConCurrencyApplicationTests.java
+|                       |
+|                       +---controller
+|                       |       CurrencyControllerTests.java
+|                       |
+|                       \---service
+|                               CurrencyServiceTests.java
 |
 \---target
     +---classes
     |   |   application-dev.properties
     |   |   application-prod.properties
     |   |   application.properties
+    |   |   expected-currencies.json
     |   |
     |   \---com
     |       \---bm
     |           \---concurrency
     |               |   ConCurrencyApplication.class
     |               |
-    |               +---client
-    |               |       ExchangeRateClient.class
+    |               +---config
+    |               |       RedisManager.class
     |               |
     |               +---constants
     |               |   \---enums
@@ -144,16 +158,25 @@ and iOS.
     |               |   |       ValidationErrorDTO.class
     |               |   |
     |               |   \---response
+    |               |           CompareResponse$CompareResponseBuilder.class
     |               |           CompareResponse.class
+    |               |           ConversionResponse$ConversionResponseBuilder.class
     |               |           ConversionResponse.class
     |               |           CurrencyListResponse.class
     |               |           ExchangeRateResponse.class
     |               |
-    |               \---service
-    |                   |   IConcurrencyService.class
-    |                   |
-    |                   \---serviceImp
-    |                           ConcurrencyService.class
+    |               +---service
+    |               |   |   ICurrencyService.class
+    |               |   |
+    |               |   \---serviceImp
+    |               |           CurrencyServiceImpl.class
+    |               |
+    |               +---utils
+    |               |       CacheClean.class
+    |               |       ExchangeRateClient.class
+    |               |
+    |               \---validation
+    |                       CurrencyValidator.class
     |
     \---generated-sources
         \---annotations
@@ -166,6 +189,7 @@ and iOS.
 - Deployment: AWS
 - API Documentation: Swagger via OpenApi 3.0
 - Caching: Redis
+- Unit testing: Junit and mockito
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 ![Spring](https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
@@ -178,6 +202,8 @@ and iOS.
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 
 ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
+
+![IntelliJ IDEA](https://img.shields.io/badge/IntelliJIDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
 
 # **Features to add in the future 💭**
 

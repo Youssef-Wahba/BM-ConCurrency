@@ -2,7 +2,6 @@ package com.bm.concurrency.payload.response;
 
 import com.bm.concurrency.constants.enums.Currency;
 import com.bm.concurrency.payload.DTOs.CurrencyDTO;
-import jakarta.validation.Valid;
 import lombok.Data;
 
 import java.util.ArrayList;

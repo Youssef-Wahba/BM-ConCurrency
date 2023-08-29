@@ -27,3 +27,5 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: Execute Jar File
       run: sudo kill -9 `sudo lsof -t -i:80` & sudo java -jar /home/ubuntu/actions-runner/actions-runner/_work/BM-ConCurrency/BM-ConCurrency/target/ConCurrency-0.0.1-SNAPSHOT.jar &
+    - name: Redis cli
+      run: redis-cli
