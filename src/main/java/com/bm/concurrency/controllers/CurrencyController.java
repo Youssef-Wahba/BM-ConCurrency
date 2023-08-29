@@ -25,12 +25,14 @@ public class CurrencyController {
     public ResponseEntity<CurrencyListResponse> getAllCurrencies(){
         return ResponseEntity.ok(concurrencyService.getCurrencyList());
     }
+
     @PostMapping("/compare")
     public ResponseEntity<CompareResponse> compareCurrencies(@Valid @RequestBody CompareDto request) {
         ExchangeRateResponse exchangeRateResponse = concurrencyService.getAllCurrencyRates(request.getBaseCurrencyId());
         CompareResponse response = concurrencyService.compare(request.getBaseCurrencyId(), request.getTargetCurrencyIds(), request.getAmount(),exchangeRateResponse);
         return ResponseEntity.ok(response);
     }
+
     @GetMapping("/convert/{source}/{target}/{amount}")
     public ResponseEntity<ConversionResponse> convertCurrencies(@Valid ConvertDTO convertDTO)   {
         return ResponseEntity.ok(concurrencyService.convert(convertDTO.getSource(), convertDTO.getTarget(),convertDTO.getAmount()));

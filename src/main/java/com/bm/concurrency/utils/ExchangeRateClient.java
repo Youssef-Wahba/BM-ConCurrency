@@ -1,11 +1,11 @@
-package com.bm.concurrency.client;
+package com.bm.concurrency.utils;
 
 import com.bm.concurrency.payload.response.ExchangeRateResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
 import java.util.Map;
+
 @FeignClient(name = "ExchangeRateClient", url ="${EXCHANGE_RATE_API_BASE_URL}" )
 public interface ExchangeRateClient {
     @GetMapping("/latest/{baseCurrency}")
