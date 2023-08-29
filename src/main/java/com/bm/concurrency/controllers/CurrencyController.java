@@ -7,6 +7,8 @@ import com.bm.concurrency.payload.response.CurrencyListResponse;
 import com.bm.concurrency.payload.DTOs.CompareDto;
 import com.bm.concurrency.payload.response.ExchangeRateResponse;
 import com.bm.concurrency.service.ICurrencyService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,12 +17,13 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin(origins = "*",maxAge = 3600)
 @RequiredArgsConstructor
+@Tag(name = "Currency controller" ,description = "This de")
 @Validated
 @RestController
 @RequestMapping("api/v1/currency")
 public class CurrencyController {
     private final ICurrencyService concurrencyService;
-
+    @Operation(summary = "")
     @GetMapping
     public ResponseEntity<CurrencyListResponse> getAllCurrencies(){
         return ResponseEntity.ok(concurrencyService.getCurrencyList());

@@ -3,9 +3,11 @@ package com.bm.concurrency.service;
 import com.bm.concurrency.utils.ExchangeRateClient;
 import com.bm.concurrency.payload.response.ConversionResponse;
 import com.bm.concurrency.service.serviceImp.CurrencyServiceImpl;
+import com.bm.concurrency.validation.CurrencyValidator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -17,12 +19,15 @@ import static org.mockito.Mockito.*;
 public class CurrencyServiceTests {
     @Mock
     private ExchangeRateClient exchangeRateClient;
+    @InjectMocks
     private CurrencyServiceImpl currencyService;
+    @Mock
+    private CurrencyValidator validator;
 
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
-        currencyService = new CurrencyServiceImpl(exchangeRateClient);
+        currencyService = new CurrencyServiceImpl(exchangeRateClient,validator);
         currencyService.currencyList = currencyService.getCurrencyList();
     }
 
